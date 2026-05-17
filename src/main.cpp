@@ -24,11 +24,21 @@ int main()
     Texture2D shop_Missouri = LoadTexture("Graphics/shop_missouri.png"); 
     Texture2D leaving_missouri = LoadTexture("Graphics/leaving_missouri.png");
     Texture2D check_supplies = LoadTexture("Graphics/check_supplies.png");
-    Texture2D check_supplies_night = LoadTexture("Graphics/check_supplies_night.png");
+    
     Texture2D change_pace = LoadTexture("Graphics/change_pace.png");
     Texture2D change_rations = LoadTexture("Graphics/change_rations.png");
     Texture2D rest=LoadTexture("Graphics/rest.png");
-
+    Texture2D hunt_screen = LoadTexture("Graphics/hunt_screen.png");
+    /*
+    Texture2D landmark_alcove_spring = LoadTexture("Graphics/landmark_alcove_spring.png");
+    Texture2D check_supplies_night = LoadTexture("Graphics/check_supplies_night.png");
+    Texture2D travel_caulk_river_disasater = LoadTexture("Graphics/travel_caulk_disaster.png"); 
+    Texture2D travel_caulk_river_success = LoadTexture("Graphics/travel_caulk_success.png"); 
+    Texture2D travel_caulk_ford_disasater = LoadTexture("Graphics/travel_ford_disaster.png"); 
+    Texture2D travel_caulk_ford_success = LoadTexture("Graphics/travel_ford_success.png");
+    Texture2D travel_ferry_river = LoadTexture("Graphics/travel_ferry_river.png"); 
+    */
+    
     Button travelButton{"Graphics/travel_t_button.png", {0, 0}, 0.15};
     Button checkSuppliesButton{"Graphics/supplies_t_button.png", {0, 115}, 0.15};
     Button mapButton{"Graphics/map_t_button.png", {0, 230}, 0.15};
@@ -42,7 +52,7 @@ int main()
     Button bareBonesButton{"Graphics/bare_bones_button.png", {1200,575},0.15};
     Button meagerButton{"Graphics/meager_button.png", {700,575},0.15};
     Button fillingButton{"Graphics/filling_button.png", {200,575},0.15};
-    //bool exit = false;
+   
 
     while(!WindowShouldClose())
     {   
@@ -78,8 +88,11 @@ int main()
             backButton.Draw();
         }
         else if(currentScreen == GameScreen::CheckSupplies){
-            //DrawTexture(check_supplies,0,0,WHITE);
-            DrawTexture(check_supplies_night,0,0,WHITE);
+            //if (time?) { 
+            //DrawTexture(check_supplies_night,0,0,WHITE);
+                //} else{
+            DrawTexture(check_supplies,0,0,WHITE);
+                //}
             backButton.Draw();
         }
         else if(currentScreen == GameScreen::ChangePace){
@@ -100,7 +113,7 @@ int main()
         }
             else if(currentScreen == GameScreen::Hunt)
         {   
-            //DrawTexture(hunt, 0,0 ,WHITE);
+           DrawTexture(hunt_screen, 0,0 ,WHITE);
             backButton.Draw();
         }
            else if(currentScreen == GameScreen::Shop)
@@ -109,7 +122,7 @@ int main()
             shopButton.Draw();
             backButton.Draw();
         }
-
+        
         //end Drawing 
         transition.Draw();
         EndDrawing();
