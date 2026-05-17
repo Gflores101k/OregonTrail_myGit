@@ -14,7 +14,7 @@ void drawMainMenuButtons(Button &travelButton, Button &checkSuppliesButton, Butt
     // continueButton.Draw();
 }
 
-void handleButtons(Button &travelButton, Button &checkSuppliesButton, Button &mapButton, Button &changePaceButton, Button &changeRationsButton, Button &restButton, Button &huntButton, Button &shopButton, Button &backButton, Button &continueButton, Vector2 mousePosition, bool mousePressed, GameScreen &currentScreen)
+void handleButtons(Button &travelButton, Button &checkSuppliesButton, Button &mapButton, Button &changePaceButton, Button &changeRationsButton, Button &restButton, Button &huntButton, Button &shopButton, Button &backButton, Button &continueButton,Button& fillingButton, Button& meagerButton, Button& bareBonesButton, Vector2 mousePosition, bool mousePressed, GameScreen &currentScreen, SetSettings& settings, std::string& messageText, float& messageTimer)
 {
     if (travelButton.isPressed(mousePosition, mousePressed))
     {
@@ -48,7 +48,30 @@ void handleButtons(Button &travelButton, Button &checkSuppliesButton, Button &ma
     {
         currentScreen = GameScreen::Shop;
     }
-    else if (backButton.isPressed(mousePosition, mousePressed))
+
+    else if(currentScreen == GameScreen::ChangeRations)
+    {
+        if (fillingButton.isPressed(mousePosition, mousePressed)){
+            settings.setRations(RationSetting::Filling); 
+            messageText = "rations set to filling.";
+            messageTimer = 2.0f;
+        }
+        else if (meagerButton.isPressed(mousePosition, mousePressed)){
+            settings.setRations(RationSetting::Meager); 
+            messageText = "rations set to meager.";
+            messageTimer = 2.0f;
+        }
+        else if (bareBonesButton.isPressed(mousePosition, mousePressed)){
+            settings.setRations(RationSetting::BareBones); 
+            messageText = "rations set to bare bones.";
+            messageTimer = 2.0f;
+        }
+        else if( backButton.isPressed(mousePosition, mousePressed)){
+            currentScreen = GameScreen::MainMenu;
+        }
+    }
+    else{
+        if (backButton.isPressed(mousePosition, mousePressed))
     {
         currentScreen = GameScreen::MainMenu;
     }
@@ -56,5 +79,6 @@ void handleButtons(Button &travelButton, Button &checkSuppliesButton, Button &ma
     {
         currentScreen = GameScreen::MainMenu;
     } // back and continue are currently the same
+    }
 }
 

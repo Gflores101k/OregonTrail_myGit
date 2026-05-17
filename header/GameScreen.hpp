@@ -14,6 +14,7 @@ enum class GameScreen {
     Shop,
     Exit,
     Encounter, 
+    Filling,
 }; //spaced for clarity 
 
 enum class ScreenEffect{

@@ -4,7 +4,9 @@
 #include "../header/GameScreen.hpp"
 #include "../header/gui_menu.hpp"
 #include "../header/transition.hpp"
+#include "../header/setsettings.hpp"
 #include <vector>
+#include <string>
 
 
 
@@ -14,11 +16,14 @@ int main()
     InitWindow(1672, 941, "Oregon Trail");
     //InitWindow(1920,1080, "Oregon Trail");
     SetTargetFPS(60);
-
-
+   
 
     GameScreen currentScreen = GameScreen::MainMenu; //set to mainmenu right away
     ScreenTransition transition; 
+    SetSettings settings;
+    
+    std::string messageText="";
+    float messageTimer = 0.0f;
 
     Texture2D independence_missouri = LoadTexture("Graphics/town_missouri.png");
     Texture2D shop_Missouri = LoadTexture("Graphics/shop_missouri.png"); 
@@ -59,14 +64,20 @@ int main()
         Vector2 mousePosition = GetMousePosition();
         bool mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
         GameScreen requestedScreen = currentScreen; 
-        if(!transition.transition) {handleButtons(travelButton, checkSuppliesButton, mapButton, changePaceButton, changeRationsButton, restButton, huntButton, shopButton, backButton, continueButton, mousePosition, mousePressed, requestedScreen);}   
+        if(!transition.transition) {handleButtons(travelButton, checkSuppliesButton, mapButton, changePaceButton, changeRationsButton, restButton, huntButton, shopButton, backButton, continueButton, fillingButton, meagerButton, bareBonesButton, mousePosition, mousePressed, requestedScreen, settings, messageText, messageTimer);}   
         //fade to black
         if(requestedScreen != currentScreen){
             transition.ScreenEffect(requestedScreen);
         }
         //fade back to new picture
         transition.UpdateEffect(currentScreen); 
-        
+        if(messageTimer>0.0f){
+            messageTimer -= GetFrameTime();
+            if(messageTimer<=0.0f){
+                messageTimer = 0.0f;
+                messageText = "";
+            }
+        }
         
         //Draw 
         BeginDrawing();
@@ -106,6 +117,9 @@ int main()
             meagerButton.Draw();
             fillingButton.Draw();
             //need to add these 3 buttons to handler 
+            std::string currentRations = "Current Rations: " + settings.getRationName();
+            DrawRectangle(460,20,750,50,Fade(BLACK,0.65f));
+            DrawText(currentRations.c_str(),490,32,28,LIGHTGRAY);
         }
             else if(currentScreen == GameScreen::Rest){
             DrawTexture(rest,0,0,WHITE);
@@ -123,6 +137,11 @@ int main()
             backButton.Draw();
         }
         
+       if(messageTimer>0.0f && messageText !=""){
+        DrawRectangle(460,90,750,90,Fade(BLACK,0.85f));
+        DrawRectangleLinesEx({460,90,750,90},4,GOLD);
+        DrawText(messageText.c_str(),500,120,30,LIGHTGRAY);
+       } 
         //end Drawing 
         transition.Draw();
         EndDrawing();
